@@ -200,7 +200,7 @@ string|	type|	icon类型，“text”文字，“share”分享
 
 只生成dom，样式需要额外依赖或者自己实现，如果是开店宝，我们提供了样式[开店宝基础样式组件](http://code.dianpingoa.com/ed-f2e/util-mtshop-m-less-demo/tree/master)。
 
-js功能不依赖于MTNB.init。
+<aside class="success">不依赖于MTNB.init</aside>
 
 ## alert
 ```javascript
@@ -215,7 +215,7 @@ MTNB.alert({
 ```
 弹出类似于window.alert的结构。
 <aside class="success">不依赖于MTNB.init</aside>
-<aside class="warning">样式需要额外依赖或者自己实现，开店宝请使用@dp/util-mtshop-m-less-demo</aside>
+<aside class="warning">样式需要额外依赖或者自己实现，开店宝请使用@dp/util-mtshop-m-less</aside>
 
 ## confirm
 ```javascript
@@ -232,7 +232,7 @@ DPMer.confirm({
 ```
 弹出类似于window.confirm的结构，有确定和取消的点击回调。
 <aside class="success">不依赖于MTNB.init</aside>
-<aside class="warning">样式需要额外依赖或者自己实现，开店宝请使用@dp/util-mtshop-m-less-demo</aside>
+<aside class="warning">样式需要额外依赖或者自己实现，开店宝请使用@dp/util-mtshop-m-less</aside>
 
 ## toast
 ```javascript
@@ -243,7 +243,7 @@ DPMer.toast({
 ```
 弹出一段简短的信息，一定时间后消失。
 <aside class="success">不依赖于MTNB.init</aside>
-<aside class="warning">样式需要额外依赖或者自己实现，开店宝请使用@dp/util-mtshop-m-less-demo</aside>
+<aside class="warning">样式需要额外依赖或者自己实现，开店宝请使用@dp/util-mtshop-m-less</aside>
 
 ## tooltip
 ```javascript
@@ -256,7 +256,7 @@ MTNB.tooltip({
 ```
 带箭头的，在指定位置出现的，一定时间后自动消失的提示信息。
 <aside class="success">不依赖于MTNB.init</aside>
-<aside class="warning">样式需要额外依赖或者自己实现，开店宝请使用@dp/util-mtshop-m-less-demo</aside>
+<aside class="warning">样式需要额外依赖或者自己实现，开店宝请使用@dp/util-mtshop-m-less</aside>
 
 ## loading
 
