@@ -56,18 +56,18 @@
 <h2 id="后端的工作">后端的工作</h2>
 
 <p>后端需要给前端页面提供鉴权信息，通过facade传给前端，点评环境-商家端(e.dianping.com)如需使用可以直接调用商家平台的服务，详情请咨询朱凯(kevin.zhu)。
-<a href="http://wiki.sankuai.com/display/DEVPUB/mtnb-auth-server++API+v1">详细的API文档</a>
-<code class="prettyprint">javascript
-facade({entry:&quot;app-mtb-club/entries/home.js&quot;, data: {
-    authInfo: {
-        &quot;ticket&quot;:&quot;e647e076111850a6b853474e2a5ff1e364d8c2d3d9e463c564039c2acc703e70&quot;,
-        &quot;url&quot;:&quot;http://e.dianping.com&quot;,&quot;ts&quot;:1456277170,
-        &quot;nonceStr&quot;:&quot;bfqkorw3fwnschf7&quot;,
-        &quot;sign&quot;:&quot;010A74878C7629A27F7F921C99D4983B4DFDCBDB&quot;
-    }
-}});
-</code>
-<aside class="success">获取鉴权信息的jsonp接口正在开发中。</aside></p>
+<a href="http://wiki.sankuai.com/display/DEVPUB/mtnb-auth-server++API+v1">详细的API文档</a></p>
+<pre class="highlight javascript"><code><span class="nx">facade</span><span class="p">({</span><span class="na">entry</span><span class="p">:</span><span class="s2">"app-mtb-club/entries/home.js"</span><span class="p">,</span> <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">authInfo</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"ticket"</span><span class="p">:</span><span class="s2">"e647e076111850a6b853474e2a5ff1e364d8c2d3d9e463c564039c2acc703e70"</span><span class="p">,</span>
+        <span class="s2">"url"</span><span class="p">:</span><span class="s2">"http://e.dianping.com"</span><span class="p">,</span><span class="s2">"ts"</span><span class="p">:</span><span class="mi">1456277170</span><span class="p">,</span>
+        <span class="s2">"nonceStr"</span><span class="p">:</span><span class="s2">"bfqkorw3fwnschf7"</span><span class="p">,</span>
+        <span class="s2">"sign"</span><span class="p">:</span><span class="s2">"010A74878C7629A27F7F921C99D4983B4DFDCBDB"</span>
+    <span class="p">}</span>
+<span class="p">}});</span>
+</code></pre>
+
+<aside class="success">获取鉴权信息的jsonp接口正在开发中。</aside>
 
 <h2 id="前端如何引入">前端如何引入</h2>
 <pre class="highlight javascript"><code><span class="nx">require</span><span class="p">(</span><span class="s1">'mtnb'</span><span class="p">);</span>
