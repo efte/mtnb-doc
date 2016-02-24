@@ -1,5 +1,5 @@
 ---
-title: mtnb - MeiTuan Native Bridge
+title: MTNB - MeiTuan Native Bridge
 
 language_tabs:
   - javascript
