@@ -21,8 +21,19 @@ MTNB(meituan native bridge)，是用来在混合应用开发中打通客户端�
 使用MTNB需要通过BA认证，因此需要后端输出authInfo，前端使用authInfo鉴权，通过鉴权才可以使用jsbridge提供的功能。
 
 ## 后端的工作
-后端需要给前端页面提供鉴权信息，点评环境-商家端(e.dianping.com)如需使用可以直接调用商家平台的服务，详情请咨询朱凯(kevin.zhu)。
+后端需要给前端页面提供鉴权信息，通过facade传给前端，点评环境-商家端(e.dianping.com)如需使用可以直接调用商家平台的服务，详情请咨询朱凯(kevin.zhu)。
 [详细的API文档](http://wiki.sankuai.com/display/DEVPUB/mtnb-auth-server++API+v1)
+```javascript
+facade({entry:"app-mtb-club/entries/home.js", data: {
+    authInfo: {
+        "ticket":"e647e076111850a6b853474e2a5ff1e364d8c2d3d9e463c564039c2acc703e70",
+        "url":"http://e.dianping.com","ts":1456277170,
+        "nonceStr":"bfqkorw3fwnschf7",
+        "sign":"010A74878C7629A27F7F921C99D4983B4DFDCBDB"
+    }
+}});
+```
+<aside class="success">获取鉴权信息的jsonp接口正在开发中。</aside>
 
 ## 前端如何引入
 ```javascript
@@ -40,7 +51,7 @@ window.MTNB.init();
 var authInfo = {
     "nonceStr":"qzpccxe1dgbhjjo",
     "ts":1433347371266,
-    "url":"http://103.227.76.185/webview",          
+    "url":"http://103.227.76.185/webview",
     "sign":"a7b8aafa2750515638179c13e1923cd336b47e04"
 };
 window.onload = function() {
