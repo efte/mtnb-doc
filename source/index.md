@@ -23,6 +23,7 @@ MTNB(meituan native bridge)，是用来在混合应用开发中打通客户端�
 ## 后端的工作
 后端需要给前端页面提供鉴权信息，通过facade传给前端，点评环境-商家端(e.dianping.com)如需使用可以直接调用商家平台的服务，详情请咨询朱凯(kevin.zhu)。
 [详细的API文档](http://wiki.sankuai.com/display/DEVPUB/mtnb-auth-server++API+v1)
+
 ```javascript
 facade({entry:"app-mtb-club/entries/home.js", data: {
     authInfo: {
