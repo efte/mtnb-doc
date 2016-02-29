@@ -49,69 +49,66 @@
 <p>MTNB(meituan native bridge)，是用来在混合应用开发中打通客户端应用（美团app，开店宝，猫眼等）与网页应用信道的桥梁。MTNB也作为美团移动桥协议在webapp中的命名空间存在。
 <a href="http://wiki.sankuai.com/display/DEVPUB/Meituan+Native+Bridge">详细文档</a></p>
 
-<p><img alt="sss" src="images/images/MTNB接入.png" /></p>
+<p><img alt="MTNB接入" src="images/MTNB接入.png" /></p>
+
+<ul>
+<li>mtnb-core由美团的npm模块提供，业务方不需要关心。</li>
+<li>mtnb和mtnb-merchant依赖于mtnb-core，并封装了BA认证过程，业务方不需要关心，直接调用即可。</li>
+<li>mtnb-merchant扩展了两部分功能，native支持的和js mock的接口。</li>
+<li>@dp/util-mtshop-ui-less提供了基础样式组件以及mtnb-merchant js相关UI接口的样式。</li>
+</ul>
 
 <h1 id="引入">引入</h1>
 
-<p>使用MTNB需要通过BA认证，因此需要后端输出authInfo，前端使用authInfo鉴权，通过鉴权才可以使用jsbridge提供的功能。</p>
+<p>使用MTNB需要通过BA认证，因此需要访问后端接口拿到authInfo，前端使用authInfo鉴权，通过鉴权才可以使用jsbridge提供的功能。</p>
 
-<h2 id="后端的工作">后端的工作</h2>
-
-<p>后端需要给前端页面提供鉴权信息，通过facade传给前端，点评环境-商家端(e.dianping.com)如需使用可以直接调用商家平台的服务，详情请咨询朱凯(kevin.zhu)。
-<a href="http://wiki.sankuai.com/display/DEVPUB/mtnb-auth-server++API+v1">详细的API文档</a></p>
-<pre class="highlight javascript"><code><span class="nx">facade</span><span class="p">({</span><span class="na">entry</span><span class="p">:</span><span class="s2">"app-mtb-club/entries/home.js"</span><span class="p">,</span> <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
-    <span class="na">authInfo</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">"ticket"</span><span class="p">:</span><span class="s2">"e647e076111850a6b853474e2a5ff1e364d8c2d3d9e463c564039c2acc703e70"</span><span class="p">,</span>
-        <span class="s2">"url"</span><span class="p">:</span><span class="s2">"http://e.dianping.com"</span><span class="p">,</span><span class="s2">"ts"</span><span class="p">:</span><span class="mi">1456277170</span><span class="p">,</span>
-        <span class="s2">"nonceStr"</span><span class="p">:</span><span class="s2">"bfqkorw3fwnschf7"</span><span class="p">,</span>
-        <span class="s2">"sign"</span><span class="p">:</span><span class="s2">"010A74878C7629A27F7F921C99D4983B4DFDCBDB"</span>
-    <span class="p">}</span>
-<span class="p">}});</span>
+<p>以上BA认证过程已经在mtnb以及mtnb-merchant中包装好，直接调用即可。</p>
+<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">MTNB</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'mtnb'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">MTNB</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'mtnb-merchant'</span><span class="p">);</span>
 </code></pre>
 
-<aside class="success">获取鉴权信息的jsonp接口正在开发中。</aside>
+<p><a href="http://code.dianpingoa.com/ed-f2e/mtnb">mtnb</a>及<a href="http://code.dianpingoa.com/ed-f2e/mtnb-merchant">开店宝mtnb</a>目前仅支持通过Cortex方式引入。</p>
 
-<h2 id="前端如何引入">前端如何引入</h2>
-<pre class="highlight javascript"><code><span class="nx">require</span><span class="p">(</span><span class="s1">'mtnb'</span><span class="p">);</span>
-<span class="nb">window</span><span class="p">.</span><span class="nx">MTNB</span><span class="p">.</span><span class="nx">init</span><span class="p">();</span>
-</code></pre>
-
-<p><a href="http://code.dianpingoa.com/ed-f2e/mtnb">mtnb模块</a>目前仅支持通过Cortex通过CommonJS标准的方式引入。
-点评侧对mtnb做了二次封装，提供了UI及storage的一些功能。</p>
+<p>点评侧对mtnb做了二次封装，提供了UI及storage的一些功能。</p>
 
 <p>在下一个版本中会改为npm方式引入，到时候也会提供UI和storage相应的的js扩展包。</p>
 
 <h1 id="初始化">初始化</h1>
-<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">authInfo</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"nonceStr"</span><span class="p">:</span><span class="s2">"qzpccxe1dgbhjjo"</span><span class="p">,</span>
-    <span class="s2">"ts"</span><span class="p">:</span><span class="mi">1433347371266</span><span class="p">,</span>
-    <span class="s2">"url"</span><span class="p">:</span><span class="s2">"http://103.227.76.185/webview"</span><span class="p">,</span>
-    <span class="s2">"sign"</span><span class="p">:</span><span class="s2">"a7b8aafa2750515638179c13e1923cd336b47e04"</span>
-<span class="p">};</span>
-<span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">MTNB</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="nx">authInfo</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="p">{</span><span class="c1">// native用这些参数请求签名验证接口进行验证。</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">status</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">// 鉴权成功</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="c1">// 鉴权失败</span>
-        <span class="p">}</span>
-    <span class="p">});</span>
-<span class="p">};</span>
+<pre class="highlight javascript"><code><span class="nx">MTNB</span><span class="p">.</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// 业务代码</span>
+    <span class="nx">MTNB</span><span class="p">.</span><span class="nx">use</span><span class="p">(...);</span>
+<span class="p">});</span>
 </code></pre>
 
-<aside class="warning">init方法必须在页面onload之后调用。</aside>
-
-<aside class="warning">MTNB中所有和native相关的接口都需要在鉴权成功后使用。</aside>
+<aside class="warning">MTNB中所有和native相关的接口都需要在鉴权成功(MTNB.ready)后使用。</aside>
 
 <h1 id="基础模块">基础模块</h1>
 
-<h2 id="webviwe模块">webviwe模块</h2>
-
-<h3 id="关闭当前webview">关闭当前webview</h3>
+<h2 id="关闭当前webview">关闭当前webview</h2>
 <pre class="highlight javascript"><code><span class="nx">MTNB</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'webview.close'</span><span class="p">,</span> <span class="p">{</span>
     <span class="na">anime</span><span class="p">:</span> <span class="s2">"slideleft"</span>
 <span class="p">});</span>
 </code></pre>
+
+<table><thead>
+<tr>
+<th>模块/app</th>
+<th>版本</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>mtnb</td>
+<td>0.3.0+</td>
+</tr>
+<tr>
+<td>mtnb-merchant</td>
+<td>0.2.0+</td>
+</tr>
+<tr>
+<td>开店宝</td>
+<td>4.9.0+</td>
+</tr>
+</tbody></table>
 
 <aside class="warning">在MTNB.init成功回调之后才可使用</aside>
 
@@ -129,14 +126,34 @@
 </tr>
 </tbody></table>
 
-<h3 id="打开新的webview">打开新的webview</h3>
+<h2 id="打开新的webview">打开新的webview</h2>
 <pre class="highlight javascript"><code><span class="nx">MTNB</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'webview.open'</span><span class="p">,</span> <span class="p">{</span>
     <span class="na">url</span><span class="p">:</span> <span class="s1">'http://i.meiutan.com/'</span><span class="p">,</span>
     <span class="na">anime</span><span class="p">:</span> <span class="s2">"slideleft"</span>
 <span class="p">});</span>
 </code></pre>
 
-<aside class="warning">在MTNB.init成功回调之后才可使用</aside>
+<table><thead>
+<tr>
+<th>模块/app</th>
+<th>版本</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>mtnb</td>
+<td>0.3.0+</td>
+</tr>
+<tr>
+<td>mtnb-merchant</td>
+<td>0.2.0+</td>
+</tr>
+<tr>
+<td>开店宝</td>
+<td>4.9.0+</td>
+</tr>
+</tbody></table>
+
+<aside class="warning">在MTNB.ready中使用</aside>
 
 <table><thead>
 <tr>
@@ -157,7 +174,7 @@
 </tr>
 </tbody></table>
 
-<h3 id="设置webview标题">设置webview标题</h3>
+<h2 id="设置webview标题">设置webview标题</h2>
 <pre class="highlight javascript"><code><span class="nx">MTNB</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'webview.setTitle'</span><span class="p">,</span> <span class="p">{</span>
     <span class="na">title</span><span class="p">:</span> <span class="s2">"一个很长很长的标题"</span><span class="p">,</span>
     <span class="na">callback</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
@@ -166,7 +183,27 @@
 <span class="p">});</span>
 </code></pre>
 
-<aside class="warning">在MTNB.init成功回调之后才可使用</aside>
+<table><thead>
+<tr>
+<th>模块/app</th>
+<th>版本</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>mtnb</td>
+<td>0.3.0+</td>
+</tr>
+<tr>
+<td>mtnb-merchant</td>
+<td>0.2.0+</td>
+</tr>
+<tr>
+<td>开店宝</td>
+<td>4.9.0+</td>
+</tr>
+</tbody></table>
+
+<aside class="warning">在MTNB.ready中使用</aside>
 
 <table><thead>
 <tr>
@@ -187,7 +224,7 @@
 </tr>
 </tbody></table>
 
-<h3 id="设置复杂的webview标题">设置复杂的webview标题</h3>
+<h2 id="设置复杂的webview标题">设置复杂的webview标题</h2>
 <pre class="highlight javascript"><code><span class="nx">MTNB</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'webview.setHtmlTitle'</span><span class="p">,</span> <span class="p">{</span>
     <span class="na">title</span><span class="p">:</span> <span class="s2">"&lt;font size="</span><span class="mi">4</span><span class="s2">" face="</span><span class="nx">arial</span><span class="s2">" color="</span><span class="nx">black</span><span class="s2">"&gt;演唱会 &lt;/font&gt;&lt;font size="</span><span class="mi">2</span><span class="s2">" color="</span><span class="nx">black</span><span class="s2">"&gt; 北京&lt;/font&gt;&lt;font size="</span><span class="mi">1</span><span class="s2">" color="</span><span class="nx">black</span><span class="s2">"&gt;▼&lt;/font&gt;"</span><span class="p">,</span>
     <span class="na">callback</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
@@ -196,7 +233,27 @@
 <span class="p">});</span>
 </code></pre>
 
-<aside class="warning">在MTNB.init成功回调之后才可使用</aside>
+<table><thead>
+<tr>
+<th>模块/app</th>
+<th>版本</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>mtnb</td>
+<td>0.3.0+</td>
+</tr>
+<tr>
+<td>mtnb-merchant</td>
+<td>0.2.0+</td>
+</tr>
+<tr>
+<td>开店宝</td>
+<td>4.9.0+</td>
+</tr>
+</tbody></table>
+
+<aside class="warning">在MTNB.ready中使用</aside>
 
 <aside class="warning">不支持换行</aside>
 
@@ -219,7 +276,7 @@
 </tr>
 </tbody></table>
 
-<h3 id="设置角标">设置角标</h3>
+<h2 id="设置角标">设置角标</h2>
 <pre class="highlight javascript"><code><span class="c1">// 分享</span>
 <span class="nx">MTNB</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'webview.setIcon'</span><span class="p">,</span> <span class="p">{</span>
     <span class="na">type</span><span class="p">:</span> <span class="s2">"share"</span><span class="p">,</span>
@@ -267,7 +324,27 @@
 <span class="p">]);</span>
 </code></pre>
 
-<aside class="warning">在MTNB.init成功回调之后才可使用</aside>
+<table><thead>
+<tr>
+<th>模块/app</th>
+<th>版本</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>mtnb</td>
+<td>0.3.0+</td>
+</tr>
+<tr>
+<td>mtnb-merchant</td>
+<td>0.2.0+</td>
+</tr>
+<tr>
+<td>开店宝</td>
+<td>4.9.0+</td>
+</tr>
+</tbody></table>
+
+<aside class="warning">在MTNB.ready中使用</aside>
 
 <table><thead>
 <tr>
@@ -310,15 +387,31 @@
 
 <p>因为android没有完全实现webview相关的接口，尤其是webview.open，所以推荐使用location.href的方式进行页面跳转。</p>
 
-<p>开店宝webview有一个已知的bug是：webview打开页面A跳转页面B，再点返回直接关闭webview，针对此问题的解决方法是，页面加载完自动进行一次页面跳转，示例代码:</p>
+<p>开店宝webview有一个已知的bug是：webview打开页面A跳转页面B，再点返回直接关闭webview，针对此问题的解决方法是，页面加载完自动进行一次页面跳转，示例代码见右侧：</p>
 
-<h1 id="ui模块">UI模块</h1>
+<h1 id="开店宝订制-native接口">开店宝订制-native接口</h1>
+
+<aside class="success">以下接口只在开店宝APP中可用，在开店宝APP中请使用mtnb-merchant。</aside>
+<pre class="highlight plaintext"><code>var MTNB = require('mtnb-merchant');
+</code></pre>
+
+<p>todo: http://wiki.sankuai.com/pages/viewpage.action?pageId=413045245</p>
+
+<h2 id="api1">API1</h2>
+
+<h2 id="api2">API2</h2>
+
+<h2 id="api3">API3</h2>
+
+<h2 id="api4">API4</h2>
+
+<h1 id="开店宝订制-js接口">开店宝订制-js接口</h1>
 
 <p>点评开发环境提供的js功能，通过extend方式挂在MTNB对象上。</p>
 
-<p>只生成dom，样式需要额外依赖或者自己实现，如果是开店宝，我们提供了样式<a href="http://code.dianpingoa.com/ed-f2e/util-mtshop-m-less-demo/tree/master">开店宝基础样式组件</a>。</p>
+<p>js接口只生成dom，样式需要额外依赖或者自己实现，请使用符合开店宝视觉规范的UI组件：<a href="http://code.dianpingoa.com/ed-f2e/util-mtshop-m-less-demo/tree/master">开店宝基础样式组件</a>。</p>
 
-<aside class="success">不依赖于MTNB.init</aside>
+<aside class="success">不需要在ready中调用。</aside>
 
 <h2 id="alert">alert</h2>
 <pre class="highlight javascript"><code><span class="nx">MTNB</span><span class="p">.</span><span class="nx">alert</span><span class="p">({</span>
@@ -332,11 +425,11 @@
 </code></pre>
 
 <p>弹出类似于window.alert的结构。
-<aside class="success">不依赖于MTNB.init</aside>
-<aside class="warning">样式需要额外依赖或者自己实现，开店宝请使用@dp/util-mtshop-m-less</aside></p>
+<aside class="success">不需要在ready中调用。</aside>
+<aside class="warning">请使用@dp/util-mtshop-m-less</aside></p>
 
 <h2 id="confirm">confirm</h2>
-<pre class="highlight javascript"><code><span class="nx">DPMer</span><span class="p">.</span><span class="nx">confirm</span><span class="p">({</span>
+<pre class="highlight javascript"><code><span class="nx">MTNB</span><span class="p">.</span><span class="nx">confirm</span><span class="p">({</span>
     <span class="na">title</span><span class="p">:</span> <span class="s1">'title'</span><span class="p">,</span> <span class="c1">// 标题文字</span>
     <span class="na">message</span><span class="p">:</span> <span class="s1">'message'</span><span class="p">,</span> <span class="c1">// 内容文字</span>
     <span class="na">okButton</span><span class="p">:</span> <span class="s1">'OK'</span><span class="p">,</span> <span class="c1">// 确认按钮文字</span>
@@ -349,19 +442,19 @@
 </code></pre>
 
 <p>弹出类似于window.confirm的结构，有确定和取消的点击回调。
-<aside class="success">不依赖于MTNB.init</aside>
-<aside class="warning">样式需要额外依赖或者自己实现，开店宝请使用@dp/util-mtshop-m-less</aside></p>
+<aside class="success">不需要在ready中调用。</aside>
+<aside class="warning">请使用@dp/util-mtshop-m-less</aside></p>
 
 <h2 id="toast">toast</h2>
-<pre class="highlight javascript"><code><span class="nx">DPMer</span><span class="p">.</span><span class="nx">toast</span><span class="p">({</span>
+<pre class="highlight javascript"><code><span class="nx">MTNB</span><span class="p">.</span><span class="nx">toast</span><span class="p">({</span>
     <span class="na">title</span><span class="p">:</span> <span class="s1">'title'</span><span class="p">,</span> <span class="c1">// 文字</span>
     <span class="na">timeout</span><span class="p">:</span> <span class="mi">2000</span> <span class="c1">// 持续时间</span>
 <span class="p">});</span>
 </code></pre>
 
 <p>弹出一段简短的信息，一定时间后消失。
-<aside class="success">不依赖于MTNB.init</aside>
-<aside class="warning">样式需要额外依赖或者自己实现，开店宝请使用@dp/util-mtshop-m-less</aside></p>
+<aside class="success">不需要在ready中调用。</aside>
+<aside class="warning">请使用@dp/util-mtshop-m-less</aside></p>
 
 <h2 id="tooltip">tooltip</h2>
 <pre class="highlight javascript"><code><span class="nx">MTNB</span><span class="p">.</span><span class="nx">tooltip</span><span class="p">({</span>
@@ -373,23 +466,18 @@
 </code></pre>
 
 <p>带箭头的，在指定位置出现的，一定时间后自动消失的提示信息。
-<aside class="success">不依赖于MTNB.init</aside>
-<aside class="warning">样式需要额外依赖或者自己实现，开店宝请使用@dp/util-mtshop-m-less</aside></p>
+<aside class="success">不需要在ready中调用。</aside>
+<aside class="warning">请使用@dp/util-mtshop-m-less</aside></p>
 
 <h2 id="loading">loading</h2>
 
 <p>todo</p>
 
-<h1 id="storage模块">storage模块</h1>
-
-<p>使用localStorage实现的异步存储模块。
-<aside class="warning">使用前需要config bizname</aside></p>
-
 <h2 id="store">store</h2>
 <pre class="highlight javascript"><code><span class="nx">MTNB</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
     <span class="na">bizname</span><span class="p">:</span> <span class="s1">'app-mtb-club'</span><span class="c1">// 通常使用包名</span>
 <span class="p">});</span>
-<span class="nx">DPMer</span><span class="p">.</span><span class="nx">store</span><span class="p">({</span>
+<span class="nx">MTNB</span><span class="p">.</span><span class="nx">store</span><span class="p">({</span>
     <span class="na">key</span><span class="p">:</span> <span class="s2">"key"</span><span class="p">,</span>
     <span class="na">value</span><span class="p">:</span> <span class="s2">"value"</span>
     <span class="na">success</span><span class="p">:</span> <span class="kd">function</span><span class="p">(){</span>
@@ -398,7 +486,7 @@
 <span class="p">});</span>
 </code></pre>
 
-<p>储值，value必须是字符串。
+<p>使用localStorage储值，value必须是字符串。
 <aside class="warning">使用前需要先使用<code class="prettyprint">MTNB.config({bizname:“your-biz-name”});</code>进行配置</aside></p>
 
 <h2 id="retrieve">retrieve</h2>
