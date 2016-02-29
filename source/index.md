@@ -72,13 +72,13 @@ MTNB.use('webview.open', {
 	anime: "slideleft"
 });
 ```
+<aside class="warning">在MTNB.ready中使用</aside>
+
 模块/app | 版本
 --- | ---
 mtnb | 0.3.0+
 mtnb-merchant | 0.2.0+
 开店宝 | 4.9.0+
-
-<aside class="warning">在MTNB.ready中使用</aside>
 
 type | name | 说明
 --- | --- | ----
@@ -95,13 +95,13 @@ MTNB.use('webview.setTitle', {
     }
 });
 ```
+<aside class="warning">在MTNB.ready中使用</aside>
+
 模块/app | 版本
 --- | ---
 mtnb | 0.3.0+
 mtnb-merchant | 0.2.0+
 开店宝 | 4.9.0+
-
-<aside class="warning">在MTNB.ready中使用</aside>
 
 type | name | 说明
 --- | --- | ----
@@ -118,14 +118,14 @@ MTNB.use('webview.setHtmlTitle', {
     }
 });
 ```
+<aside class="warning">在MTNB.ready中使用</aside>
+<aside class="warning">不支持换行</aside>
+
 模块/app | 版本
 --- | ---
 mtnb | 0.3.0+
 mtnb-merchant | 0.2.0+
 开店宝 | 4.9.0+
-
-<aside class="warning">在MTNB.ready中使用</aside>
-<aside class="warning">不支持换行</aside>
 
 type | name | 说明
 --- | --- | ----
@@ -181,13 +181,13 @@ MTNB.use('webview.setIcon', [
     }
 ]);
 ```
+<aside class="warning">在MTNB.ready中使用</aside>
+
 模块/app | 版本
 --- | ---
 mtnb | 0.3.0+
 mtnb-merchant | 0.2.0+
 开店宝 | 4.9.0+
-
-<aside class="warning">在MTNB.ready中使用</aside>
 
 type | name | 说明
 --- | --- | ----
