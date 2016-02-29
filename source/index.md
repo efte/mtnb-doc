@@ -236,7 +236,8 @@ todo: http://wiki.sankuai.com/pages/viewpage.action?pageId=413045245
 ## API4
 
 # 开店宝订制-js接口
-点评开发环境提供的js功能，通过extend方式挂在MTNB对象上。
+
+mtnb-merchant中点评开发环境提供的js功能，通过extend方式挂在MTNB对象上。
 
 js接口只生成dom，样式需要额外依赖或者自己实现，请使用符合开店宝视觉规范的UI组件：[开店宝基础样式组件](http://code.dianpingoa.com/ed-f2e/util-mtshop-m-less-demo/tree/master)。
 
@@ -254,6 +255,7 @@ MTNB.alert({
 });
 ```
 弹出类似于window.alert的结构。
+<aside class="success">mtnb-merchant@0.2.0+</aside>
 <aside class="success">不需要在ready中调用。</aside>
 <aside class="warning">请使用@dp/util-mtshop-m-less</aside>
 
@@ -271,6 +273,7 @@ MTNB.confirm({
 });
 ```
 弹出类似于window.confirm的结构，有确定和取消的点击回调。
+<aside class="success">mtnb-merchant@0.2.0+</aside>
 <aside class="success">不需要在ready中调用。</aside>
 <aside class="warning">请使用@dp/util-mtshop-m-less</aside>
 
@@ -282,6 +285,7 @@ MTNB.toast({
 });
 ```
 弹出一段简短的信息，一定时间后消失。
+<aside class="success">mtnb-merchant@0.2.0+</aside>
 <aside class="success">不需要在ready中调用。</aside>
 <aside class="warning">请使用@dp/util-mtshop-m-less</aside>
 
@@ -295,6 +299,7 @@ MTNB.tooltip({
 });
 ```
 带箭头的，在指定位置出现的，一定时间后自动消失的提示信息。
+<aside class="success">mtnb-merchant@0.2.0+</aside>
 <aside class="success">不需要在ready中调用。</aside>
 <aside class="warning">请使用@dp/util-mtshop-m-less</aside>
 
@@ -317,6 +322,8 @@ MTNB.store({
 });
 ```
 使用localStorage储值，value必须是字符串。
+<aside class="success">mtnb-merchant@0.2.0+</aside>
+<aside class="success">不需要在ready中调用。</aside>
 <aside class="warning">使用前需要先使用`MTNB.config({bizname:“your-biz-name”});`进行配置</aside>
 ## retrieve
 
@@ -332,6 +339,8 @@ MTNB.retrieve({
 });
 ```
 取store的值。
+<aside class="success">mtnb-merchant@0.2.0+</aside>
+<aside class="success">不需要在ready中调用。</aside>
 <aside class="warning">使用前需要先使用`MTNB.config({bizname:“your-biz-name”});`进行配置</aside>
 
 ## del
@@ -347,6 +356,8 @@ MTNB.del({
 });
 ```
 删除store的值。
+<aside class="success">mtnb-merchant@0.2.0+</aside>
+<aside class="success">不需要在ready中调用。</aside>
 <aside class="warning">使用前需要先使用`MTNB.config({bizname:“your-biz-name”});`进行配置</aside>
 
 
