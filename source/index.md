@@ -16,6 +16,7 @@ search: true
 MTNB(meituan native bridge)，是用来在混合应用开发中打通客户端应用（美团app，开店宝，猫眼等）与网页应用信道的桥梁。MTNB也作为美团移动桥协议在webapp中的命名空间存在。
 [详细文档](http://wiki.sankuai.com/display/DEVPUB/Meituan+Native+Bridge)
 
+![sss](./images/MTNB接入.png)
 # 引入
 
 使用MTNB需要通过BA认证，因此需要后端输出authInfo，前端使用authInfo鉴权，通过鉴权才可以使用jsbridge提供的功能。
@@ -68,9 +69,11 @@ window.onload = function() {
 <aside class="warning">init方法必须在页面onload之后调用。</aside>
 <aside class="warning">MTNB中所有和native相关的接口都需要在鉴权成功后使用。</aside>
 
-# webview模块
+# 基础模块
 
-## 关闭当前webview
+## webviwe模块
+
+### 关闭当前webview
 ```javascript
 MTNB.use('webview.close', {
 	anime: "slideleft"
@@ -81,7 +84,7 @@ type | name | 描述
 --- | ---- | ----
 string | anime | 关闭时执行的动画，如果不传，按照打开的反向动画执行
 
-## 打开新的webview
+### 打开新的webview
 ```javascript
 MTNB.use('webview.open', {
 	url: 'http://i.meiutan.com/',
@@ -95,7 +98,7 @@ string | url	| 打开的地址
 string	| anime	| 动画类型：swipeLeft, swipeRight 左右切换；fadeIn, fadeOut 淡入淡出
 
 
-## 设置webview标题
+### 设置webview标题
 ```javascript
 MTNB.use('webview.setTitle', {
     title: "一个很长很长的标题",
@@ -111,7 +114,7 @@ function	|callback	| 监听标题点击的回调
 string | title	| 标题名称
 
 
-## 设置复杂的webview标题
+### 设置复杂的webview标题
 ```javascript
 MTNB.use('webview.setHtmlTitle', {
     title: "<font size="4" face="arial" color="black">演唱会 </font><font size="2" color="black"> 北京</font><font size="1" color="black">▼</font>",
@@ -128,7 +131,7 @@ string	| title | 标题名称，使用font来实现
 function | callback | 监听标题点击的回调
 
 
-## 设置角标
+### 设置角标
 ```javascript
 // 分享
 MTNB.use('webview.setIcon', {
