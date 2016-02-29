@@ -49,6 +49,8 @@
 <p>MTNB(meituan native bridge)，是用来在混合应用开发中打通客户端应用（美团app，开店宝，猫眼等）与网页应用信道的桥梁。MTNB也作为美团移动桥协议在webapp中的命名空间存在。
 <a href="http://wiki.sankuai.com/display/DEVPUB/Meituan+Native+Bridge">详细文档</a></p>
 
+<p><img alt="sss" src="images/images/MTNB接入.png" /></p>
+
 <h1 id="引入">引入</h1>
 
 <p>使用MTNB需要通过BA认证，因此需要后端输出authInfo，前端使用authInfo鉴权，通过鉴权才可以使用jsbridge提供的功能。</p>
@@ -101,9 +103,11 @@
 
 <aside class="warning">MTNB中所有和native相关的接口都需要在鉴权成功后使用。</aside>
 
-<h1 id="webview模块">webview模块</h1>
+<h1 id="基础模块">基础模块</h1>
 
-<h2 id="关闭当前webview">关闭当前webview</h2>
+<h2 id="webviwe模块">webviwe模块</h2>
+
+<h3 id="关闭当前webview">关闭当前webview</h3>
 <pre class="highlight javascript"><code><span class="nx">MTNB</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'webview.close'</span><span class="p">,</span> <span class="p">{</span>
     <span class="na">anime</span><span class="p">:</span> <span class="s2">"slideleft"</span>
 <span class="p">});</span>
@@ -125,7 +129,7 @@
 </tr>
 </tbody></table>
 
-<h2 id="打开新的webview">打开新的webview</h2>
+<h3 id="打开新的webview">打开新的webview</h3>
 <pre class="highlight javascript"><code><span class="nx">MTNB</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'webview.open'</span><span class="p">,</span> <span class="p">{</span>
     <span class="na">url</span><span class="p">:</span> <span class="s1">'http://i.meiutan.com/'</span><span class="p">,</span>
     <span class="na">anime</span><span class="p">:</span> <span class="s2">"slideleft"</span>
@@ -153,7 +157,7 @@
 </tr>
 </tbody></table>
 
-<h2 id="设置webview标题">设置webview标题</h2>
+<h3 id="设置webview标题">设置webview标题</h3>
 <pre class="highlight javascript"><code><span class="nx">MTNB</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'webview.setTitle'</span><span class="p">,</span> <span class="p">{</span>
     <span class="na">title</span><span class="p">:</span> <span class="s2">"一个很长很长的标题"</span><span class="p">,</span>
     <span class="na">callback</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
@@ -183,7 +187,7 @@
 </tr>
 </tbody></table>
 
-<h2 id="设置复杂的webview标题">设置复杂的webview标题</h2>
+<h3 id="设置复杂的webview标题">设置复杂的webview标题</h3>
 <pre class="highlight javascript"><code><span class="nx">MTNB</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'webview.setHtmlTitle'</span><span class="p">,</span> <span class="p">{</span>
     <span class="na">title</span><span class="p">:</span> <span class="s2">"&lt;font size="</span><span class="mi">4</span><span class="s2">" face="</span><span class="nx">arial</span><span class="s2">" color="</span><span class="nx">black</span><span class="s2">"&gt;演唱会 &lt;/font&gt;&lt;font size="</span><span class="mi">2</span><span class="s2">" color="</span><span class="nx">black</span><span class="s2">"&gt; 北京&lt;/font&gt;&lt;font size="</span><span class="mi">1</span><span class="s2">" color="</span><span class="nx">black</span><span class="s2">"&gt;▼&lt;/font&gt;"</span><span class="p">,</span>
     <span class="na">callback</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
@@ -215,7 +219,7 @@
 </tr>
 </tbody></table>
 
-<h2 id="设置角标">设置角标</h2>
+<h3 id="设置角标">设置角标</h3>
 <pre class="highlight javascript"><code><span class="c1">// 分享</span>
 <span class="nx">MTNB</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'webview.setIcon'</span><span class="p">,</span> <span class="p">{</span>
     <span class="na">type</span><span class="p">:</span> <span class="s2">"share"</span><span class="p">,</span>
