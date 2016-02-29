@@ -16,89 +16,79 @@ search: true
 MTNB(meituan native bridge)，是用来在混合应用开发中打通客户端应用（美团app，开店宝，猫眼等）与网页应用信道的桥梁。MTNB也作为美团移动桥协议在webapp中的命名空间存在。
 [详细文档](http://wiki.sankuai.com/display/DEVPUB/Meituan+Native+Bridge)
 
-![sss](./images/MTNB接入.png)
+![MTNB接入](images/MTNB接入.png)
+
+* mtnb-core由美团的npm模块提供，业务方不需要关心。
+* mtnb和mtnb-merchant依赖于mtnb-core，并封装了BA认证过程，业务方不需要关心，直接调用即可。
+* mtnb-merchant扩展了两部分功能，native支持的和js mock的接口。
+* @dp/util-mtshop-ui-less提供了基础样式组件以及mtnb-merchant js相关UI接口的样式。
+
 # 引入
+使用MTNB需要通过BA认证，因此需要访问后端接口拿到authInfo，前端使用authInfo鉴权，通过鉴权才可以使用jsbridge提供的功能。
 
-使用MTNB需要通过BA认证，因此需要后端输出authInfo，前端使用authInfo鉴权，通过鉴权才可以使用jsbridge提供的功能。
-
-## 后端的工作
-后端需要给前端页面提供鉴权信息，通过facade传给前端，点评环境-商家端(e.dianping.com)如需使用可以直接调用商家平台的服务，详情请咨询朱凯(kevin.zhu)。
-[详细的API文档](http://wiki.sankuai.com/display/DEVPUB/mtnb-auth-server++API+v1)
+以上BA认证过程已经在mtnb以及mtnb-merchant中包装好，直接调用即可。
 
 ```javascript
-facade({entry:"app-mtb-club/entries/home.js", data: {
-    authInfo: {
-        "ticket":"e647e076111850a6b853474e2a5ff1e364d8c2d3d9e463c564039c2acc703e70",
-        "url":"http://e.dianping.com","ts":1456277170,
-        "nonceStr":"bfqkorw3fwnschf7",
-        "sign":"010A74878C7629A27F7F921C99D4983B4DFDCBDB"
-    }
-}});
-```
-<aside class="success">获取鉴权信息的jsonp接口正在开发中。</aside>
-
-## 前端如何引入
-```javascript
-require('mtnb');
-window.MTNB.init();
+var MTNB = require('mtnb');
+var MTNB = require('mtnb-merchant');
 ```
 
-[mtnb模块](http://code.dianpingoa.com/ed-f2e/mtnb)目前仅支持通过Cortex通过CommonJS标准的方式引入。
+[mtnb](http://code.dianpingoa.com/ed-f2e/mtnb)及[开店宝mtnb](http://code.dianpingoa.com/ed-f2e/mtnb-merchant)目前仅支持通过Cortex方式引入。
+
 点评侧对mtnb做了二次封装，提供了UI及storage的一些功能。
 
 在下一个版本中会改为npm方式引入，到时候也会提供UI和storage相应的的js扩展包。
 
 # 初始化
 ```javascript
-var authInfo = {
-    "nonceStr":"qzpccxe1dgbhjjo",
-    "ts":1433347371266,
-    "url":"http://103.227.76.185/webview",
-    "sign":"a7b8aafa2750515638179c13e1923cd336b47e04"
-};
-window.onload = function() {
-	MTNB.init(authInfo, function (res) {// native用这些参数请求签名验证接口进行验证。
-    	if (res.status === 0) {
-        	// 鉴权成功
-    	} else {
-        	// 鉴权失败
-    	}
-	});
-};
+MTNB.ready(function() {
+	// 业务代码
+	MTNB.use(...);
+});
 ```
-<aside class="warning">init方法必须在页面onload之后调用。</aside>
-<aside class="warning">MTNB中所有和native相关的接口都需要在鉴权成功后使用。</aside>
+<aside class="warning">MTNB中所有和native相关的接口都需要在鉴权成功(MTNB.ready)后使用。</aside>
 
 # 基础模块
 
-## webviwe模块
-
-### 关闭当前webview
+## 关闭当前webview
 ```javascript
 MTNB.use('webview.close', {
 	anime: "slideleft"
 });
 ```
+模块/app | 版本
+--- | ---
+mtnb | 0.3.0+
+mtnb-merchant | 0.2.0+
+开店宝 | 4.9.0+
+
 <aside class="warning">在MTNB.init成功回调之后才可使用</aside>
 type | name | 描述
 --- | ---- | ----
 string | anime | 关闭时执行的动画，如果不传，按照打开的反向动画执行
 
-### 打开新的webview
+## 打开新的webview
 ```javascript
 MTNB.use('webview.open', {
 	url: 'http://i.meiutan.com/',
 	anime: "slideleft"
 });
 ```
-<aside class="warning">在MTNB.init成功回调之后才可使用</aside>
+模块/app | 版本
+--- | ---
+mtnb | 0.3.0+
+mtnb-merchant | 0.2.0+
+开店宝 | 4.9.0+
+
+<aside class="warning">在MTNB.ready中使用</aside>
+
 type | name | 说明
 --- | --- | ----
 string | url	| 打开的地址
 string	| anime	| 动画类型：swipeLeft, swipeRight 左右切换；fadeIn, fadeOut 淡入淡出
 
 
-### 设置webview标题
+## 设置webview标题
 ```javascript
 MTNB.use('webview.setTitle', {
     title: "一个很长很长的标题",
@@ -107,14 +97,21 @@ MTNB.use('webview.setTitle', {
     }
 });
 ```
-<aside class="warning">在MTNB.init成功回调之后才可使用</aside>
+模块/app | 版本
+--- | ---
+mtnb | 0.3.0+
+mtnb-merchant | 0.2.0+
+开店宝 | 4.9.0+
+
+<aside class="warning">在MTNB.ready中使用</aside>
+
 type | name | 说明
 --- | --- | ----
 function	|callback	| 监听标题点击的回调
 string | title	| 标题名称
 
 
-### 设置复杂的webview标题
+## 设置复杂的webview标题
 ```javascript
 MTNB.use('webview.setHtmlTitle', {
     title: "<font size="4" face="arial" color="black">演唱会 </font><font size="2" color="black"> 北京</font><font size="1" color="black">▼</font>",
@@ -123,15 +120,22 @@ MTNB.use('webview.setHtmlTitle', {
     }
 });
 ```
-<aside class="warning">在MTNB.init成功回调之后才可使用</aside>
+模块/app | 版本
+--- | ---
+mtnb | 0.3.0+
+mtnb-merchant | 0.2.0+
+开店宝 | 4.9.0+
+
+<aside class="warning">在MTNB.ready中使用</aside>
 <aside class="warning">不支持换行</aside>
+
 type | name | 说明
 --- | --- | ----
 string	| title | 标题名称，使用font来实现
 function | callback | 监听标题点击的回调
 
 
-### 设置角标
+## 设置角标
 ```javascript
 // 分享
 MTNB.use('webview.setIcon', {
@@ -179,7 +183,14 @@ MTNB.use('webview.setIcon', [
     }
 ]);
 ```
-<aside class="warning">在MTNB.init成功回调之后才可使用</aside>
+模块/app | 版本
+--- | ---
+mtnb | 0.3.0+
+mtnb-merchant | 0.2.0+
+开店宝 | 4.9.0+
+
+<aside class="warning">在MTNB.ready中使用</aside>
+
 type | name | 说明
 --- | --- | ----
 object|	data|	附加数据，其中的callback为事件触发后的回调，参数是{}
@@ -208,14 +219,28 @@ string|	type|	icon类型，“text”文字，“share”分享
 
 因为android没有完全实现webview相关的接口，尤其是webview.open，所以推荐使用location.href的方式进行页面跳转。
 
-开店宝webview有一个已知的bug是：webview打开页面A跳转页面B，再点返回直接关闭webview，针对此问题的解决方法是，页面加载完自动进行一次页面跳转，示例代码:
+开店宝webview有一个已知的bug是：webview打开页面A跳转页面B，再点返回直接关闭webview，针对此问题的解决方法是，页面加载完自动进行一次页面跳转，示例代码见右侧：
 
-# UI模块
+# 开店宝订制-native接口
+<aside class="success">以下接口只在开店宝APP中可用，在开店宝APP中请使用mtnb-merchant。</aside>
+
+```
+var MTNB = require('mtnb-merchant');
+```
+
+todo: http://wiki.sankuai.com/pages/viewpage.action?pageId=413045245
+
+## API1
+## API2
+## API3
+## API4
+
+# 开店宝订制-js接口
 点评开发环境提供的js功能，通过extend方式挂在MTNB对象上。
 
-只生成dom，样式需要额外依赖或者自己实现，如果是开店宝，我们提供了样式[开店宝基础样式组件](http://code.dianpingoa.com/ed-f2e/util-mtshop-m-less-demo/tree/master)。
+js接口只生成dom，样式需要额外依赖或者自己实现，请使用符合开店宝视觉规范的UI组件：[开店宝基础样式组件](http://code.dianpingoa.com/ed-f2e/util-mtshop-m-less-demo/tree/master)。
 
-<aside class="success">不依赖于MTNB.init</aside>
+<aside class="success">不需要在ready中调用。</aside>
 
 ## alert
 ```javascript
@@ -229,12 +254,12 @@ MTNB.alert({
 });
 ```
 弹出类似于window.alert的结构。
-<aside class="success">不依赖于MTNB.init</aside>
-<aside class="warning">样式需要额外依赖或者自己实现，开店宝请使用@dp/util-mtshop-m-less</aside>
+<aside class="success">不需要在ready中调用。</aside>
+<aside class="warning">请使用@dp/util-mtshop-m-less</aside>
 
 ## confirm
 ```javascript
-DPMer.confirm({
+MTNB.confirm({
     title: 'title', // 标题文字
     message: 'message', // 内容文字
     okButton: 'OK', // 确认按钮文字
@@ -246,19 +271,19 @@ DPMer.confirm({
 });
 ```
 弹出类似于window.confirm的结构，有确定和取消的点击回调。
-<aside class="success">不依赖于MTNB.init</aside>
-<aside class="warning">样式需要额外依赖或者自己实现，开店宝请使用@dp/util-mtshop-m-less</aside>
+<aside class="success">不需要在ready中调用。</aside>
+<aside class="warning">请使用@dp/util-mtshop-m-less</aside>
 
 ## toast
 ```javascript
-DPMer.toast({
+MTNB.toast({
     title: 'title', // 文字
     timeout: 2000 // 持续时间
 });
 ```
 弹出一段简短的信息，一定时间后消失。
-<aside class="success">不依赖于MTNB.init</aside>
-<aside class="warning">样式需要额外依赖或者自己实现，开店宝请使用@dp/util-mtshop-m-less</aside>
+<aside class="success">不需要在ready中调用。</aside>
+<aside class="warning">请使用@dp/util-mtshop-m-less</aside>
 
 ## tooltip
 ```javascript
@@ -270,16 +295,12 @@ MTNB.tooltip({
 });
 ```
 带箭头的，在指定位置出现的，一定时间后自动消失的提示信息。
-<aside class="success">不依赖于MTNB.init</aside>
-<aside class="warning">样式需要额外依赖或者自己实现，开店宝请使用@dp/util-mtshop-m-less</aside>
+<aside class="success">不需要在ready中调用。</aside>
+<aside class="warning">请使用@dp/util-mtshop-m-less</aside>
 
 ## loading
 
 todo
-
-# storage模块
-使用localStorage实现的异步存储模块。
-<aside class="warning">使用前需要config bizname</aside>
 
 ## store
 
@@ -287,7 +308,7 @@ todo
 MTNB.config({
 	bizname: 'app-mtb-club'// 通常使用包名
 });
-DPMer.store({
+MTNB.store({
 	key: "key",
 	value: "value"
 	success: function(){
@@ -295,7 +316,7 @@ DPMer.store({
 	}
 });
 ```
-储值，value必须是字符串。
+使用localStorage储值，value必须是字符串。
 <aside class="warning">使用前需要先使用`MTNB.config({bizname:“your-biz-name”});`进行配置</aside>
 ## retrieve
 
