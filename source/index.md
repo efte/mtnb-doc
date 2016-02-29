@@ -35,9 +35,7 @@ var MTNB = require('mtnb-merchant');
 
 [mtnb](http://code.dianpingoa.com/ed-f2e/mtnb)及[开店宝mtnb](http://code.dianpingoa.com/ed-f2e/mtnb-merchant)目前仅支持通过Cortex方式引入。
 
-点评侧对mtnb做了二次封装，提供了UI及storage的一些功能。
-
-在下一个版本中会改为npm方式引入，到时候也会提供UI和storage相应的的js扩展包。
+点评侧对mtnb-merchant做了二次封装，提供了UI及storage的一些功能。
 
 # 初始化
 ```javascript
