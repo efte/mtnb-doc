@@ -226,12 +226,231 @@ string|	type|	icon类型，“text”文字，“share”分享
 var MTNB = require('mtnb-merchant');
 ```
 
-todo: http://wiki.sankuai.com/pages/viewpage.action?pageId=413045245
 
-## API1
-## API2
-## API3
-## API4
+## 设置 TAB 切换标题
+```javascript
+MTNB.use('webviewBasicOperation.setTabPageForTitleViewWithParams',
+[{
+    name : 'title 1',
+    checked : true,
+    callback : function(args){
+        alert('title 1 clicked'); 
+    }
+}, {
+    name : 'title 2',
+    checked : false, 
+    callback : function(args){
+        alert('title 2 clicked'); 
+    }
+}],
+function(message){
+    alert(JSON.stringify(message));  
+});
+```
+setTabPageForTitleViewWithParams：该接口设置切换的标题以及各标题在被点击后回调的方法
+
+模块/app | 版本
+--- | ---
+mtnb-merchant | 0.2.0+
+开店宝 | 4.9.0+
+
+<table>
+	<tr>
+	    <th>type</th>
+	    <th>name</th>
+	    <th>说明</th>
+    </tr>
+	<tr>
+	    <td>array</td>
+	    <td>data</td>
+	    <td>
+			包含所有TabPage信息的对象数组, 其中每个对象的属性又分别为：
+			<table border="1">
+				<tr>
+				    <td>string</td>
+				    <td>name</td>
+					<td>TabPage的名字</td>
+			    </tr>
+				<tr>
+				    <td>bool</td>
+				    <td>checked</td>
+					<td>该TabPage是否被选中</td>
+				</tr>
+				<tr>
+				    <td>function</td>
+				    <td>callback</td>
+					<td>当该tab被点击时，此方法会被调用</td>
+				</tr>
+		    </table>
+		</td>
+	</tr>
+	<tr>
+	    <td>functoin</td>
+	    <td>callback</td>
+		<td>设置成功后回调</td>
+	</tr>
+</table>
+
+## 设置 header 右侧按钮
+```javascript
+MTNB.use('webviewBasicOperation.setHeaderActionForRightButtonItem',
+{
+    type : 'icon_button',  
+    content : 'https://avatars3.githubusercontent.com/u/855749?v=3&s=460',  
+    callback: function(args){
+    }
+},
+function(message){
+    alert(JSON.stringify(message));   
+});
+```
+setHeaderActionForRightButtonItem：该接口设置header右侧按钮的种类以及被点击时所执行的相应操作
+
+模块/app | 版本
+--- | ---
+mtnb-merchant | 0.2.0+
+开店宝 | 4.9.0+
+
+<table>
+	<tr>
+	    <th>type</th>
+	    <th>name</th>
+	    <th>说明</th>
+    </tr>
+	<tr>
+	    <td>object</td>
+	    <td>data</td>
+	    <td>
+			header右侧按钮的相关属性
+			<table border="1">
+				<tr>
+				    <td>string</td>
+				    <td>type</td>
+					<td>按钮的种类，可选值： text_button（文本），icon_button（图标）</td>
+			    </tr>
+				<tr>
+				    <td>string</td>
+				    <td>content</td>
+					<td>若按钮的种类为text_button（文本）时，此为纯文本；若按钮的种类为icon_button（图标）时，此为指向 icon 的 url</td>
+				</tr>
+				<tr>
+				    <td>function</td>
+				    <td>callback</td>
+					<td>当 header 右侧区域被点击时，此方法会被调用</td>
+				</tr>
+		    </table>
+		</td>
+	</tr>
+	<tr>
+	    <td>functoin</td>
+	    <td>callback</td>
+		<td>设置成功后回调</td>
+	</tr>
+</table>
+
+## 新开webview
+```javascript
+MTNB.use('webviewBasicOperation.setLoadWebViewWithParams',
+{
+    url : 'http://i.meituan.com',  
+    callback: function(args){
+    }
+},
+function(message){
+    alert(JSON.stringify(message));  
+});
+```
+setLoadWebViewWithParams：该接口新打开了一个webview并加载了相应的url，类似于在 webview 中实现 target="_blank" 
+
+模块/app | 版本
+--- | ---
+mtnb-merchant | 0.2.0+
+开店宝 | 4.9.0+
+
+
+<table>
+	<tr>
+	    <th>type</th>
+	    <th>name</th>
+	    <th>说明</th>
+    </tr>
+	<tr>
+	    <td>object</td>
+	    <td>data</td>
+	    <td>该对象包括了新打开的webview的各项属性：
+			<table border="1">
+				<tr>
+				    <td>string</td>
+				    <td>url</td>
+					<td>新打开 webview 指向的 url</td>
+			    </tr>
+				<tr>
+				    <td>function</td>
+				    <td>callback</td>
+					<td>当新打开的 webview 关闭时，此方法会被调用</td>
+				</tr>
+		    </table>
+		</td>
+	</tr>
+	<tr>
+	    <td>functoin</td>
+	    <td>callback</td>
+		<td>设置成功后回调</td>
+	</tr>
+</table>
+
+
+# 扫二维码
+```javascript
+MTNB.use('webviewBasicOperation.launchNativeQRReaderPage',
+{  
+    imageUrl : 'https://avatars3.githubusercontent.com/u/855749?v=3&s=460',  
+    callback: function(args){
+        alert(JSON.stringify(args)); 
+    }
+},
+function(message){
+    alert(JSON.stringify(message));
+});
+```
+launchNativeQRReaderPage：该接口打开并使用 native 的扫二维码功能
+
+模块/app | 版本
+--- | ---
+mtnb-merchant | 0.2.0+
+开店宝 | 4.9.0+
+
+<table>
+	<tr>
+	    <th>type</th>
+	    <th>name</th>
+	    <th>说明</th>
+    </tr>
+	<tr>
+	    <td>object</td>
+	    <td>data</td>
+	    <td>
+			与扫二维码功能相关的各项属性：
+			<table border="1">
+				<tr>
+				    <td>string</td>
+				    <td>imageUrl</td>
+					<td>在该扫码页底部显示的图片的url</td>
+			    </tr>
+				<tr>
+				    <td>function</td>
+				    <td>callback</td>
+					<td>当扫码结束，获取到二维码值之后，此方法会被调用，参数为扫码得到的值</td>
+				</tr>
+		    </table>
+		</td>
+	</tr>
+	<tr>
+	    <td>functoin</td>
+	    <td>callback</td>
+		<td>设置成功后回调</td>
+	</tr>
+</table>
 
 # 开店宝订制-js接口
 
