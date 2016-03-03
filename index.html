@@ -393,15 +393,272 @@
 <pre class="highlight plaintext"><code>var MTNB = require('mtnb-merchant');
 </code></pre>
 
-<p>todo: http://wiki.sankuai.com/pages/viewpage.action?pageId=413045245</p>
+<h2 id="设置-tab-切换标题">设置 TAB 切换标题</h2>
+<pre class="highlight javascript"><code><span class="nx">MTNB</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'webviewBasicOperation.setTabPageForTitleViewWithParams'</span><span class="p">,</span>
+<span class="p">[{</span>
+    <span class="na">name</span> <span class="p">:</span> <span class="s1">'title 1'</span><span class="p">,</span>
+    <span class="na">checked</span> <span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="na">callback</span> <span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">args</span><span class="p">){</span>
+        <span class="nx">alert</span><span class="p">(</span><span class="s1">'title 1 clicked'</span><span class="p">);</span> 
+    <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+    <span class="na">name</span> <span class="p">:</span> <span class="s1">'title 2'</span><span class="p">,</span>
+    <span class="na">checked</span> <span class="p">:</span> <span class="kc">false</span><span class="p">,</span> 
+    <span class="na">callback</span> <span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">args</span><span class="p">){</span>
+        <span class="nx">alert</span><span class="p">(</span><span class="s1">'title 2 clicked'</span><span class="p">);</span> 
+    <span class="p">}</span>
+<span class="p">}],</span>
+<span class="kd">function</span><span class="p">(</span><span class="nx">message</span><span class="p">){</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">message</span><span class="p">));</span>  
+<span class="p">});</span>
+</code></pre>
 
-<h2 id="api1">API1</h2>
+<p>setTabPageForTitleViewWithParams：该接口设置切换的标题以及各标题在被点击后回调的方法</p>
 
-<h2 id="api2">API2</h2>
+<table><thead>
+<tr>
+<th>模块/app</th>
+<th>版本</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>mtnb-merchant</td>
+<td>0.2.0+</td>
+</tr>
+<tr>
+<td>开店宝</td>
+<td>4.9.0+</td>
+</tr>
+</tbody></table>
 
-<h2 id="api3">API3</h2>
+<table>
+    <tr>
+        <th>type</th>
+        <th>name</th>
+        <th>说明</th>
+    </tr>
+    <tr>
+        <td>array</td>
+        <td>data</td>
+        <td>
+            包含所有TabPage信息的对象数组, 其中每个对象的属性又分别为：
+            <table border="1">
+                <tr>
+                    <td>string</td>
+                    <td>name</td>
+                    <td>TabPage的名字</td>
+                </tr>
+                <tr>
+                    <td>bool</td>
+                    <td>checked</td>
+                    <td>该TabPage是否被选中</td>
+                </tr>
+                <tr>
+                    <td>function</td>
+                    <td>callback</td>
+                    <td>当该tab被点击时，此方法会被调用</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>functoin</td>
+        <td>callback</td>
+        <td>设置成功后回调</td>
+    </tr>
+</table>
 
-<h2 id="api4">API4</h2>
+<h2 id="设置-header-右侧按钮">设置 header 右侧按钮</h2>
+<pre class="highlight javascript"><code><span class="nx">MTNB</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'webviewBasicOperation.setHeaderActionForRightButtonItem'</span><span class="p">,</span>
+<span class="p">{</span>
+    <span class="na">type</span> <span class="p">:</span> <span class="s1">'icon_button'</span><span class="p">,</span>  
+    <span class="na">content</span> <span class="p">:</span> <span class="s1">'https://avatars3.githubusercontent.com/u/855749?v=3&amp;s=460'</span><span class="p">,</span>  
+    <span class="na">callback</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">args</span><span class="p">){</span>
+    <span class="p">}</span>
+<span class="p">},</span>
+<span class="kd">function</span><span class="p">(</span><span class="nx">message</span><span class="p">){</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">message</span><span class="p">));</span>   
+<span class="p">});</span>
+</code></pre>
+
+<p>setHeaderActionForRightButtonItem：该接口设置header右侧按钮的种类以及被点击时所执行的相应操作</p>
+
+<table><thead>
+<tr>
+<th>模块/app</th>
+<th>版本</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>mtnb-merchant</td>
+<td>0.2.0+</td>
+</tr>
+<tr>
+<td>开店宝</td>
+<td>4.9.0+</td>
+</tr>
+</tbody></table>
+
+<table>
+    <tr>
+        <th>type</th>
+        <th>name</th>
+        <th>说明</th>
+    </tr>
+    <tr>
+        <td>object</td>
+        <td>data</td>
+        <td>
+            header右侧按钮的相关属性
+            <table border="1">
+                <tr>
+                    <td>string</td>
+                    <td>type</td>
+                    <td>按钮的种类，可选值： text_button（文本），icon_button（图标）</td>
+                </tr>
+                <tr>
+                    <td>string</td>
+                    <td>content</td>
+                    <td>若按钮的种类为text_button（文本）时，此为纯文本；若按钮的种类为icon_button（图标）时，此为指向 icon 的 url</td>
+                </tr>
+                <tr>
+                    <td>function</td>
+                    <td>callback</td>
+                    <td>当 header 右侧区域被点击时，此方法会被调用</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>functoin</td>
+        <td>callback</td>
+        <td>设置成功后回调</td>
+    </tr>
+</table>
+
+<h2 id="新开webview">新开webview</h2>
+<pre class="highlight javascript"><code><span class="nx">MTNB</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'webviewBasicOperation.setLoadWebViewWithParams'</span><span class="p">,</span>
+<span class="p">{</span>
+    <span class="na">url</span> <span class="p">:</span> <span class="s1">'http://i.meituan.com'</span><span class="p">,</span>  
+    <span class="na">callback</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">args</span><span class="p">){</span>
+    <span class="p">}</span>
+<span class="p">},</span>
+<span class="kd">function</span><span class="p">(</span><span class="nx">message</span><span class="p">){</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">message</span><span class="p">));</span>  
+<span class="p">});</span>
+</code></pre>
+
+<p>setLoadWebViewWithParams：该接口新打开了一个webview并加载了相应的url，类似于在 webview 中实现 target=&ldquo;_blank&rdquo; </p>
+
+<table><thead>
+<tr>
+<th>模块/app</th>
+<th>版本</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>mtnb-merchant</td>
+<td>0.2.0+</td>
+</tr>
+<tr>
+<td>开店宝</td>
+<td>4.9.0+</td>
+</tr>
+</tbody></table>
+
+<table>
+    <tr>
+        <th>type</th>
+        <th>name</th>
+        <th>说明</th>
+    </tr>
+    <tr>
+        <td>object</td>
+        <td>data</td>
+        <td>该对象包括了新打开的webview的各项属性：
+            <table border="1">
+                <tr>
+                    <td>string</td>
+                    <td>url</td>
+                    <td>新打开 webview 指向的 url</td>
+                </tr>
+                <tr>
+                    <td>function</td>
+                    <td>callback</td>
+                    <td>当新打开的 webview 关闭时，此方法会被调用</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>functoin</td>
+        <td>callback</td>
+        <td>设置成功后回调</td>
+    </tr>
+</table>
+
+<h1 id="扫二维码">扫二维码</h1>
+<pre class="highlight javascript"><code><span class="nx">MTNB</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'webviewBasicOperation.launchNativeQRReaderPage'</span><span class="p">,</span>
+<span class="p">{</span>  
+    <span class="na">imageUrl</span> <span class="p">:</span> <span class="s1">'https://avatars3.githubusercontent.com/u/855749?v=3&amp;s=460'</span><span class="p">,</span>  
+    <span class="na">callback</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">args</span><span class="p">){</span>
+        <span class="nx">alert</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">args</span><span class="p">));</span> 
+    <span class="p">}</span>
+<span class="p">},</span>
+<span class="kd">function</span><span class="p">(</span><span class="nx">message</span><span class="p">){</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">message</span><span class="p">));</span>
+<span class="p">});</span>
+</code></pre>
+
+<p>launchNativeQRReaderPage：该接口打开并使用 native 的扫二维码功能</p>
+
+<table><thead>
+<tr>
+<th>模块/app</th>
+<th>版本</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>mtnb-merchant</td>
+<td>0.2.0+</td>
+</tr>
+<tr>
+<td>开店宝</td>
+<td>4.9.0+</td>
+</tr>
+</tbody></table>
+
+<table>
+    <tr>
+        <th>type</th>
+        <th>name</th>
+        <th>说明</th>
+    </tr>
+    <tr>
+        <td>object</td>
+        <td>data</td>
+        <td>
+            与扫二维码功能相关的各项属性：
+            <table border="1">
+                <tr>
+                    <td>string</td>
+                    <td>imageUrl</td>
+                    <td>在该扫码页底部显示的图片的url</td>
+                </tr>
+                <tr>
+                    <td>function</td>
+                    <td>callback</td>
+                    <td>当扫码结束，获取到二维码值之后，此方法会被调用，参数为扫码得到的值</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>functoin</td>
+        <td>callback</td>
+        <td>设置成功后回调</td>
+    </tr>
+</table>
 
 <h1 id="开店宝订制-js接口">开店宝订制-js接口</h1>
 
