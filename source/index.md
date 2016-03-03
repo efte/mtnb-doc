@@ -400,7 +400,7 @@ mtnb-merchant | 0.2.0+
 </table>
 
 
-# 扫二维码
+## 扫二维码
 ```javascript
 MTNB.use('webviewBasicOperation.launchNativeQRReaderPage',
 {  
