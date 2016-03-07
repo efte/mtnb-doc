@@ -522,8 +522,10 @@ MTNB.tooltip({
 
 ## loading
 
-todo
-
+```javascript
+MTNB.loading.show();
+MTNB.loading.hide();
+```
 ## store
 
 ```javascript
