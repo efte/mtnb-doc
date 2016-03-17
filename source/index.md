@@ -46,7 +46,98 @@ MTNB.ready(function() {
 ```
 <aside class="warning">MTNB中所有和native相关的接口都需要在鉴权成功(MTNB.ready)后使用。</aside>
 
-# 基础模块
+# 基础模块-定位
+
+## 定位接口
+```javascript
+MTNB.use('geo.getLocation', {
+    timeout: 10000
+}, function (res) {
+    if (res.status == 0) {
+        console.log(res.data.latitude + ', ' + res.data.longitude);
+    } else {
+        alert(res.message);
+    }
+});
+```
+模块/app | 版本
+--- | ---
+mtnb | 0.3.0+
+mtnb-merchant | 0.2.0+
+开店宝 | 4.9.0+
+
+### 输入：
+
+type | name | 描述
+--- | ---- | ----
+int | timeout | 超时时间（毫秒），-1 默认不限制
+		
+### 输出：
+
+type | name | 描述
+--- | ---- | ----
+int | status | 返回的状态码， 0：成功，1: 超时， 2：不可用
+string | message | 错误信息
+object | data | 返回数据：data.latitude为纬度，data.longitude为经度，data.radius为误差（m）
+
+## 打开地图
+```javascript
+MTNB.use('geo.openMap', {
+    lat: 140.23434,
+    lng: 40.4335
+});
+```
+模块/app | 版本
+--- | ---
+mtnb | 0.3.0+
+mtnb-merchant | 0.2.0+
+开店宝 | 4.9.0+
+
+<aside class="warning">该api只提供接口描述，具体实现因为业务线使用地图sdk不同，要各自完成</aside>
+
+type | name | 描述
+--- | ---- | ----
+boolean | [marker] | 是否在中心标点，默认false
+boolean | [goto] | 是否去哪里，默认false，如果为true，显示用户位置到所在点的路线
+float | lat | 纬度
+float | lng | 经度
+int | [zoom] | 缩放比例, 默认16（街区）	
+				
+# 基础模块-分享
+
+## 直接调取分享
+```javascript
+MTNB.use('share.invoke', {
+    url: location.href,
+    title: document.title,
+    pic: $('img').attr('src'),
+    callback: function (res) {
+        // res有分享渠道的信息，具体格式需要再确定
+    }
+}, function (res) {
+    if (res.status == 0) {
+        console.log('打开分享')
+    } else {
+        alert(res.message);
+    }
+});
+```
+模块/app | 版本
+--- | ---
+mtnb | 0.3.0+
+mtnb-merchant | 0.2.0+
+开店宝 | 4.9.0+
+
+<aside class="warning">该api只提供接口描述，具体实现因为业务线使用地图sdk不同，要各自完成</aside>
+
+type | name | 描述
+--- | ---- | ----
+string | url | 分享的地址
+string | title | 分享标题
+string | pic | 分享的图片
+string | [content] | 分享的内容
+
+# 基础模块-webview
 
 ## 关闭当前webview
 ```javascript
@@ -218,6 +309,80 @@ string|	type|	icon类型，“text”文字，“share”分享
 因为android没有完全实现webview相关的接口，尤其是webview.open，所以推荐使用location.href的方式进行页面跳转。
 
 开店宝webview有一个已知的bug是：webview打开页面A跳转页面B，再点返回直接关闭webview，针对此问题的解决方法是，页面加载完自动进行一次页面跳转，示例代码见右侧：
+
+# 基础模块-支付
+<aside class="warning">没有做在1期</aside>
+## 收银台
+```javascript
+MTNB.use('pay.go', {
+    "order":23234244,
+    "tradeNumber":"11231231231321",
+    "payTocken":"adasreaxzca",
+    callback: function (res) {
+        // 支付完成的回调，res中包含有成功与否的信息
+    },
+    url: "....."
+});
+```
+模块/app | 版本
+--- | ---
+mtnb | 0.3.0+
+mtnb-merchant | 0.2.0+
+开店宝 | 4.9.0+
+
+type | name | 描述
+--- | ---- | ----
+int | order | 订单号
+string | tradeNumber | 流水号
+string | payToken | 支付token
+string | url | 完成后跳转
+
+# 基础模块-账户 
+
+## 登录
+```javascript
+MTNB.use('account.login', {
+    callback: function (res) {
+        // 登录完成的回调，res中包含有成功与否的信息
+    },
+    // 登录完成后的回调页面
+    url: '...'
+});
+```
+模块/app | 版本
+--- | ---
+mtnb | 0.3.0+
+mtnb-merchant | 0.2.0+
+开店宝 | 4.9.0+
+
+type | name | 描述
+--- | ---- | ----
+string | backurl | 完成后的返回地址，默认为当前页面
+
+## 登出
+```javascript
+MTNB.use('account.logout', {
+    callback: function (res) {
+        // 登出完成的回调，res中包含有成功与否的信息
+    },
+    // 登出完成后的回调页面
+    url: '...'
+});
+```
+模块/app | 版本
+--- | ---
+mtnb | 0.3.0+
+mtnb-merchant | 0.2.0+
+开店宝 | 4.9.0+
+
+### 输入：无
+
+### 输出：
+type | name | 描述
+--- | ---- | ----
+int | status | 返回的状态码， 0：成功
+string | message | 错误数据
+string | data | 返回数据
 
 # 开店宝订制-native接口
 <aside class="success">以下接口只在开店宝APP中可用，在开店宝APP中请使用mtnb-merchant。</aside>
