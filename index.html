@@ -80,7 +80,216 @@
 
 <aside class="warning">MTNB中所有和native相关的接口都需要在鉴权成功(MTNB.ready)后使用。</aside>
 
-<h1 id="基础模块">基础模块</h1>
+<h1 id="基础模块-定位">基础模块-定位</h1>
+
+<h2 id="定位接口">定位接口</h2>
+<pre class="highlight javascript"><code><span class="nx">MTNB</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'geo.getLocation'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="na">timeout</span><span class="p">:</span> <span class="mi">10000</span>
+<span class="p">},</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">status</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">latitude</span> <span class="o">+</span> <span class="s1">', '</span> <span class="o">+</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">longitude</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">alert</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th>模块/app</th>
+<th>版本</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>mtnb</td>
+<td>0.3.0+</td>
+</tr>
+<tr>
+<td>mtnb-merchant</td>
+<td>0.2.0+</td>
+</tr>
+<tr>
+<td>开店宝</td>
+<td>4.9.0+</td>
+</tr>
+</tbody></table>
+
+<h3 id="输入：">输入：</h3>
+
+<table><thead>
+<tr>
+<th>type</th>
+<th>name</th>
+<th>描述</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>int</td>
+<td>timeout</td>
+<td>超时时间（毫秒），-1 默认不限制</td>
+</tr>
+</tbody></table>
+
+<h3 id="输出：">输出：</h3>
+
+<table><thead>
+<tr>
+<th>type</th>
+<th>name</th>
+<th>描述</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>int</td>
+<td>status</td>
+<td>返回的状态码， 0：成功，1: 超时， 2：不可用</td>
+</tr>
+<tr>
+<td>string</td>
+<td>message</td>
+<td>错误信息</td>
+</tr>
+<tr>
+<td>object</td>
+<td>data</td>
+<td>返回数据：data.latitude为纬度，data.longitude为经度，data.radius为误差（m）</td>
+</tr>
+</tbody></table>
+
+<h2 id="打开地图">打开地图</h2>
+<pre class="highlight javascript"><code><span class="nx">MTNB</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'geo.openMap'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="na">lat</span><span class="p">:</span> <span class="mf">140.23434</span><span class="p">,</span>
+    <span class="na">lng</span><span class="p">:</span> <span class="mf">40.4335</span>
+<span class="p">});</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th>模块/app</th>
+<th>版本</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>mtnb</td>
+<td>0.3.0+</td>
+</tr>
+<tr>
+<td>mtnb-merchant</td>
+<td>0.2.0+</td>
+</tr>
+<tr>
+<td>开店宝</td>
+<td>4.9.0+</td>
+</tr>
+</tbody></table>
+
+<aside class="warning">该api只提供接口描述，具体实现因为业务线使用地图sdk不同，要各自完成</aside>
+
+<table><thead>
+<tr>
+<th>type</th>
+<th>name</th>
+<th>描述</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>boolean</td>
+<td>[marker]</td>
+<td>是否在中心标点，默认false</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>[goto]</td>
+<td>是否去哪里，默认false，如果为true，显示用户位置到所在点的路线</td>
+</tr>
+<tr>
+<td>float</td>
+<td>lat</td>
+<td>纬度</td>
+</tr>
+<tr>
+<td>float</td>
+<td>lng</td>
+<td>经度</td>
+</tr>
+<tr>
+<td>int</td>
+<td>[zoom]</td>
+<td>缩放比例, 默认16（街区）</td>
+</tr>
+</tbody></table>
+
+<h1 id="基础模块-分享">基础模块-分享</h1>
+
+<h2 id="直接调取分享">直接调取分享</h2>
+<pre class="highlight javascript"><code><span class="nx">MTNB</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'share.invoke'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="na">url</span><span class="p">:</span> <span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">,</span>
+    <span class="na">title</span><span class="p">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">title</span><span class="p">,</span>
+    <span class="na">pic</span><span class="p">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">'img'</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">'src'</span><span class="p">),</span>
+    <span class="na">callback</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// res有分享渠道的信息，具体格式需要再确定</span>
+    <span class="p">}</span>
+<span class="p">},</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">status</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'打开分享'</span><span class="p">)</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">alert</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th>模块/app</th>
+<th>版本</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>mtnb</td>
+<td>0.3.0+</td>
+</tr>
+<tr>
+<td>mtnb-merchant</td>
+<td>0.2.0+</td>
+</tr>
+<tr>
+<td>开店宝</td>
+<td>4.9.0+</td>
+</tr>
+</tbody></table>
+
+<aside class="warning">该api只提供接口描述，具体实现因为业务线使用地图sdk不同，要各自完成</aside>
+
+<table><thead>
+<tr>
+<th>type</th>
+<th>name</th>
+<th>描述</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>string</td>
+<td>url</td>
+<td>分享的地址</td>
+</tr>
+<tr>
+<td>string</td>
+<td>title</td>
+<td>分享标题</td>
+</tr>
+<tr>
+<td>string</td>
+<td>pic</td>
+<td>分享的图片</td>
+</tr>
+<tr>
+<td>string</td>
+<td>[content]</td>
+<td>分享的内容</td>
+</tr>
+</tbody></table>
+
+<h1 id="基础模块-webview">基础模块-webview</h1>
 
 <h2 id="关闭当前webview">关闭当前webview</h2>
 <pre class="highlight javascript"><code><span class="nx">MTNB</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'webview.close'</span><span class="p">,</span> <span class="p">{</span>
@@ -386,6 +595,175 @@
 <p>因为android没有完全实现webview相关的接口，尤其是webview.open，所以推荐使用location.href的方式进行页面跳转。</p>
 
 <p>开店宝webview有一个已知的bug是：webview打开页面A跳转页面B，再点返回直接关闭webview，针对此问题的解决方法是，页面加载完自动进行一次页面跳转，示例代码见右侧：</p>
+
+<h1 id="基础模块-支付">基础模块-支付</h1>
+
+<aside class="warning">没有做在1期</aside>
+
+<h2 id="收银台">收银台</h2>
+<pre class="highlight javascript"><code><span class="nx">MTNB</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'pay.go'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="s2">"order"</span><span class="p">:</span><span class="mi">23234244</span><span class="p">,</span>
+    <span class="s2">"tradeNumber"</span><span class="p">:</span><span class="s2">"11231231231321"</span><span class="p">,</span>
+    <span class="s2">"payTocken"</span><span class="p">:</span><span class="s2">"adasreaxzca"</span><span class="p">,</span>
+    <span class="na">callback</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 支付完成的回调，res中包含有成功与否的信息</span>
+    <span class="p">},</span>
+    <span class="na">url</span><span class="p">:</span> <span class="s2">"....."</span>
+<span class="p">});</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th>模块/app</th>
+<th>版本</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>mtnb</td>
+<td>0.3.0+</td>
+</tr>
+<tr>
+<td>mtnb-merchant</td>
+<td>0.2.0+</td>
+</tr>
+<tr>
+<td>开店宝</td>
+<td>4.9.0+</td>
+</tr>
+</tbody></table>
+
+<table><thead>
+<tr>
+<th>type</th>
+<th>name</th>
+<th>描述</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>int</td>
+<td>order</td>
+<td>订单号</td>
+</tr>
+<tr>
+<td>string</td>
+<td>tradeNumber</td>
+<td>流水号</td>
+</tr>
+<tr>
+<td>string</td>
+<td>payToken</td>
+<td>支付token</td>
+</tr>
+<tr>
+<td>string</td>
+<td>url</td>
+<td>完成后跳转</td>
+</tr>
+</tbody></table>
+
+<h1 id="基础模块-账户">基础模块-账户</h1>
+
+<h2 id="登录">登录</h2>
+<pre class="highlight javascript"><code><span class="nx">MTNB</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'account.login'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="na">callback</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 登录完成的回调，res中包含有成功与否的信息</span>
+    <span class="p">},</span>
+    <span class="c1">// 登录完成后的回调页面</span>
+    <span class="na">url</span><span class="p">:</span> <span class="s1">'...'</span>
+<span class="p">});</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th>模块/app</th>
+<th>版本</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>mtnb</td>
+<td>0.3.0+</td>
+</tr>
+<tr>
+<td>mtnb-merchant</td>
+<td>0.2.0+</td>
+</tr>
+<tr>
+<td>开店宝</td>
+<td>4.9.0+</td>
+</tr>
+</tbody></table>
+
+<table><thead>
+<tr>
+<th>type</th>
+<th>name</th>
+<th>描述</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>string</td>
+<td>backurl</td>
+<td>完成后的返回地址，默认为当前页面</td>
+</tr>
+</tbody></table>
+
+<h2 id="登出">登出</h2>
+<pre class="highlight javascript"><code><span class="nx">MTNB</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'account.logout'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="na">callback</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 登出完成的回调，res中包含有成功与否的信息</span>
+    <span class="p">},</span>
+    <span class="c1">// 登出完成后的回调页面</span>
+    <span class="na">url</span><span class="p">:</span> <span class="s1">'...'</span>
+<span class="p">});</span>
+</code></pre>
+
+<table><thead>
+<tr>
+<th>模块/app</th>
+<th>版本</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>mtnb</td>
+<td>0.3.0+</td>
+</tr>
+<tr>
+<td>mtnb-merchant</td>
+<td>0.2.0+</td>
+</tr>
+<tr>
+<td>开店宝</td>
+<td>4.9.0+</td>
+</tr>
+</tbody></table>
+
+<h3 id="输入：无">输入：无</h3>
+
+<h3 id="输出：">输出：</h3>
+
+<table><thead>
+<tr>
+<th>type</th>
+<th>name</th>
+<th>描述</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>int</td>
+<td>status</td>
+<td>返回的状态码， 0：成功</td>
+</tr>
+<tr>
+<td>string</td>
+<td>message</td>
+<td>错误数据</td>
+</tr>
+<tr>
+<td>string</td>
+<td>data</td>
+<td>返回数据</td>
+</tr>
+</tbody></table>
 
 <h1 id="开店宝订制-native接口">开店宝订制-native接口</h1>
 
