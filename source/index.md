@@ -46,6 +46,34 @@ MTNB.ready(function() {
 ```
 <aside class="warning">MTNB中所有和native相关的接口都需要在鉴权成功(MTNB.ready)后使用。</aside>
 
+# 基础模块-统计
+
+## 发送统计接口
+```javascript
+MTNB.use('stat.log', {
+    url: 'http://api.mobile.meituan.com/data/collect.json',
+    type: "POST",
+    data: 'type=i_stat&content={"appnm":"group","ct":"i","ua":"Mozilla/5.0 (iPhone; CPU iPhone OS 7_0 like Mac OS X; en-us) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53","app":0,"msid":"pc4pktmlm4swf9bf3vkq05b2","did":"BFCAB776BF8D7D25B53701E7EE6D93347730DA6EE5F5BB77F3DB4E0FEF21FDCB","uid":null,"uuid":"BFCAB776BF8D7D25B53701E7EE6D93347730DA6EE5F5BB77F3DB4E0FEF21FDCB","cityid":"1","ch":"touch","lch":null,"os":"iPhone","sc":"568*451","net":"none","ip":"106.120.108.34","evs":[{"cate":"truck","loadCount":10,"sumSize":33261,"duration":13,"xhrCount":0,"lsCount":10,"xhrSize":0,"lsSize":33261,"nm":"STATIC","tm":1433325192,"seq":1433325192100}]}',
+    callback: function(res) {
+
+    }
+});
+```
+模块/app | 版本
+--- | ---
+mtnb | 0.3.0+
+mtnb-merchant | 0.2.0+
+开店宝 | 4.9.0+
+
+<aside class="warning">发送统计接口，底层调用proxy接口实现</aside>
+
+type | name | 描述
+--- | ---- | ----
+string | url | 统计的请求地址，包含?
+string | type | 统计的请求方式，默认为GET
+string | data | 统计的内容
+function | callback | 请求回调函数
+
 # 基础模块-定位
 
 ## 定位接口
