@@ -13,4 +13,4 @@ search: true
 
 # 概述
 
-文档已经迁移到公司内部网络http://ed.f2e.dp/mtnb/doc
+文档已经迁移到公司内部网络[http://ed.f2e.dp/mtnb/doc](http://ed.f2e.dp/mtnb/doc)
